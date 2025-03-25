@@ -3,9 +3,8 @@ pipeline {
     environment {
         ZONE = "northamerica-northeast1-a"
         IMAGE_NAME = "sample1"
-       
         CLUSTER_NAME = "cluster-1"
-        GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp')
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('GCP-allinone')
         DEPLOY_YAML = "deploy.yml"
     }
     stages {
