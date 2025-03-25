@@ -1,12 +1,12 @@
 pipeline {
     agent any
     environment {
-        ZONE = "us-central1-c"
+        ZONE = "northamerica-northeast1-a"
         IMAGE_NAME = "sample1"
        
-        CLUSTER_NAME = "cluster-2"
+        CLUSTER_NAME = "cluster-1"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp')
-        DEPLOY_YAML = "frontend.yaml"
+        DEPLOY_YAML = "deploy.yml"
     }
     stages {
         stage('docker login') {
@@ -31,14 +31,14 @@ pipeline {
             steps {
                 sh '''
                 docker build -t "$IMAGE_NAME" .
-                docker tag "$IMAGE_NAME" ganesh6498/$IMAGE_NAME:$BUILD_NUMBER
+                docker tag "$IMAGE_NAME" saicharan12121/$IMAGE_NAME:$BUILD_NUMBER
                 '''
             }
         }
         stage('docker push') {
             steps {
                 sh '''
-                docker push ganesh6498/$IMAGE_NAME:$BUILD_NUMBER
+                docker push saicharan12121/$IMAGE_NAME:$BUILD_NUMBER
                 '''
             }
         }
@@ -47,7 +47,7 @@ pipeline {
                 script {
                     echo 'Updating deployment YAML with the latest Docker image...'
                     sh """
-                    sed -i 's|image: .*|image: ganesh6498/${IMAGE_NAME}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
+                    sed -i 's|image: .*|image: saicharan12121/${IMAGE_NAME}:${BUILD_NUMBER}|' ${DEPLOY_YAML}
                     """
                 }
             }
@@ -67,7 +67,7 @@ pipeline {
                 retry(3) {
                     sh '''  
                     sleep 10
-                    gcloud container clusters get-credentials $CLUSTER_NAME --zone $ZONE --project sam-453310
+                    gcloud container clusters get-credentials $CLUSTER_NAME --zone $ZONE --project saicharan-452306
                     '''
                 }
             }
@@ -77,7 +77,7 @@ pipeline {
             steps {
                 sh ''' 
 
-                kubectl apply -f frontend.yaml
+                kubectl apply -f deploy.yml
                 ''' 
             }
         }
