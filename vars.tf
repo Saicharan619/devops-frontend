@@ -1,9 +1,9 @@
 variable "cluster_name" {
-    default = "cluster-2"
+    default = "cluster-1"
   
 }
 variable "region" {
-    default = "us-central1-c"
+    default = "northamerica-northeast1-a"
   
 }
 variable "node_count" {
